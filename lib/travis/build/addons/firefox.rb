@@ -69,31 +69,31 @@ module Travis
               'firefox-beta-latest'
             when 'latest-esr'
               'firefox-esr-latest'
-			when 'latest-dev'
-			  'firefox-aurora-latest'
-			when 'latest-nightly'
-			  if RbConfig::CONFIG['host_os'] == /linux/
-				nightly = '/.+?(?=linux-x86_64)/'
-			  else
-				nightly = '/.+?(?=mac.dmg)/'
-			  end
-			  nightly
+      			when 'latest-dev'
+      			  'firefox-aurora-latest'
+      			when 'latest-nightly'
+      			  if RbConfig::CONFIG['host_os'] == /linux/
+      				nightly = '/.+?(?=linux-x86_64)/'
+      			  else
+      				nightly = '/.+?(?=mac.dmg)/'
+      			  end
+      			  nightly
             else
               "firefox-#{version}"
             end
 
-			if product == /linux|mac/
-			  host = 'archive.mozilla.org/pub/firefox/nightly/latest-mozilla-central/'
-			else
+      			if product == /linux|mac/
+      			  host = 'archive.mozilla.org/pub/firefox/nightly/latest-mozilla-central/'
+      			else
               host = 'download.mozilla.org'
-			end
+      			end
 
-			sh.if "[$(uname) = 'Linux'] && [#{product} = '/linux/']" do
-			  sh.export 'FIREFOX_SOURCE_URL', "'https://#{host}/#{product}.linux-x6_64.tar.bz2'"
-			end
-			sh.elif "[$(uname) = 'Darwin'] && [#{product} = '/mac/']" do
-			  sh.export 'FIREFOX_SOURCE_URL', "'https://#{host}/#{product}.mac.dmg'"
-			end
+      			sh.if "[$(uname) = 'Linux'] && [#{product} = '/linux/']" do
+      			  sh.export 'FIREFOX_SOURCE_URL', "'https://#{host}/#{product}.linux-x6_64.tar.bz2'"
+      			end
+      			sh.elif "[$(uname) = 'Darwin'] && [#{product} = '/mac/']" do
+      			  sh.export 'FIREFOX_SOURCE_URL', "'https://#{host}/#{product}.mac.dmg'"
+      			end
             sh.elif "[$(uname) = 'Linux']" do
               sh.export 'FIREFOX_SOURCE_URL', "'https://#{host}/?product=#{product}&lang=en-US&os=linux64'"
             end
